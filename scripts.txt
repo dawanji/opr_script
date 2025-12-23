@@ -28,3 +28,4 @@ https://github.com/tehstone/wayfarer-addons/raw/main/wayfarer-review-timer.user.
 https://github.com/tehstone/wayfarer-addons/raw/main/wayfarer-ticket-saver.user.js
 https://github.com/tehstone/wayfarer-addons/raw/main/wayfarer-version-display.user.js
 https://static.varden.info/opr-tools/dist/opr-tools.user.js
+https://github.com/Ingrass/OPR-Tools/raw/master/Scripts/OPR_China_Map_Helper.user.js
