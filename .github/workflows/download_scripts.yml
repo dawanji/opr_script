@@ -1,0 +1,116 @@
+name: Download Opr Scripts
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 每天午夜执行
+  workflow_dispatch: # 允许手动触发
+  push:
+    branches:
+      - main # 每次提交到 main 分支时触发
+
+jobs:
+  download-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 授予 action 写仓库和创建 Release 的权限
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download scripts
+        run: |
+          # Clean up any untracked files from previous runs
+          git clean -fdx
+
+          # Initialize/clear the error log and create a temporary success file
+          > scripts_error.txt
+          > scripts_success.txt.tmp
+
+          if [ -f scripts.txt ]; then
+            # Loop through each URL, attempt download, and log success/failure
+            grep -v '^#' scripts.txt | grep -v '^\s*$' | while IFS= read -r url; do
+              filename=$(basename "$url")
+              echo "Processing URL: $url"
+              rm -f "$filename" # Remove old version first
+
+              # Attempt to download the script with a timeout and retry mechanism
+              if wget --timeout=15 --tries=2 -O "$filename" "$url"; then
+                echo "Successfully downloaded $filename"
+                # Add the good URL to the success list
+                echo "$url" >> scripts_success.txt.tmp
+              else
+                echo "Failed to download $url"
+                # Add the bad URL to the error list
+                echo "$url" >> scripts_error.txt
+                # Clean up the failed download attempt (wget might create an empty file)
+                rm -f "$filename"
+              fi
+            done
+
+            # Replace the old scripts.txt with the list of successfully downloaded scripts
+            mv scripts_success.txt.tmp scripts.txt
+          else
+            echo "scripts.txt not found!"
+            exit 1
+          fi
+
+      - name: Modify @match URLs in scripts
+        run: |
+          echo "--- Checking @match before modification ---"
+          grep "match" *.user.js || true
+
+          # Use perl for a more robust in-place replacement
+          perl -pi -e 's/wayfarer\.nianticlabs\.com/opr.ingress.com/g' *.user.js
+
+          echo "--- Checking @match after modification ---"
+          grep "match" *.user.js || true
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Add downloaded scripts and the updated scripts.txt
+          git add *.user.js
+          git add scripts.txt
+
+          # Add the error log only if it's not empty
+          if [ -s scripts_error.txt ]; then
+            git add scripts_error.txt
+          fi
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "Automated: Update scripts and handle download errors"
+            git push
+            echo "committed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No new or updated scripts to commit."
+            echo "committed=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Generate changelog
+        run: |
+          echo "Changes in this update:" > changelog.txt
+          # Get the list of changed files from the latest commit
+          git diff-tree --no-commit-id --name-status -r HEAD >> changelog.txt
+
+      - name: Create archive
+        run: |
+          # Archive only the .user.js files in the root. These files have already been modified.
+          zip opr-scripts.zip *.user.js
+
+      - name: Clean up old 'latest' release
+        run: |
+          # Delete the release and tag named 'latest'. Fails gracefully if they don't exist.
+          gh release delete latest --cleanup-tag --yes || echo "No previous 'latest' release to delete."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create New 'latest' Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest # Always use the same tag name to create a single, rolling release
+          files: opr-scripts.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
