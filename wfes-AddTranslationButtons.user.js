@@ -17,7 +17,7 @@
 // @grant          none
 // ==/UserScript==
 
-/* Copyright 2025 AlterTobi
+/* Copyright 2026 AlterTobi
 
    This file is part of the Wayfarer Extension Scripts collection. Further scripts
    can be found on the @homepage, see above.

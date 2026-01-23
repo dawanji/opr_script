@@ -14,7 +14,7 @@
 // @grant          none
 // ==/UserScript==
 
-/* Copyright 2025 AlterTobi
+/* Copyright 2026 AlterTobi
 
    This file is part of the Wayfarer Extension Scripts collection. Further scripts
    can be found on the @homepage, see above.
@@ -569,7 +569,7 @@ fnV1HwAAAABJRU5ErkJggg==`;
         script = document.createElement("script");
         script.type = "text/javascript";
         script.setAttribute("async", "");
-        script.setAttribute("src", "https://maps.googleapis.com/maps/api/js?key=AIzaSyB8G-1vuHW3Sx8ONsM71G9TzWJHHWXfAf8&&libraries=visualization,geometry,marker&loading=async&callback=initMap");
+        script.setAttribute("src", "https://maps.googleapis.com/maps/api/js?key=AIzaSyD_U7Qhl7Idnw8fXaeFRMNr6xgl0Au95Cg&&libraries=visualization,geometry,marker&loading=async&callback=initMap");
         body.appendChild(script);
       }
 
