@@ -446,8 +446,6 @@ fnV1HwAAAABJRU5ErkJggg==`;
 
       function showMap() {
         let histText, innerScript = "";
-        // Body leeren
-        emptyPage(histText);
 
         if ("WFRHeatBtn" === this.id ) {
           histText = "/#wfrheatmap";
@@ -536,6 +534,9 @@ fnV1HwAAAABJRU5ErkJggg==`;
             if ( 0 === i) { break; }// weniger geht nicht
           }
         }
+
+        // Body leeren
+        emptyPage(histText);
 
         const style = document.createElement("style");
         style.innerHTML= `#map { height: 100%; }
