@@ -1,0 +1,1 @@
+https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-dupesScroll.user.js

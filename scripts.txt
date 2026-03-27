@@ -2,7 +2,6 @@ https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-Base.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AddTranslationButtons.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AppealData.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AutoHold.user.js
-https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-dupesScroll.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-ImageMod.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-reviewAddOrigLocation.user.js
 https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-URLify.user.js
