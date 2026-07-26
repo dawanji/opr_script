@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - Base
-// @version        2.8.5
+// @version        2.8.6
 // @description    basic functionality for WFES
 // @author         AlterTobi
 // @run-at         document-start
@@ -729,11 +729,13 @@
     if ("string"===typeof(myID) && myID.length>0) {
       // already there?
       if (null === document.getElementById(myID)) {
-        const headElem = document.getElementsByTagName("HEAD")[0];
-        const customStyleElem = document.createElement("style");
-        customStyleElem.setAttribute("id", myID);
-        customStyleElem.appendChild(document.createTextNode(styles));
-        headElem.appendChild(customStyleElem);
+        _waitForElem("head").then( headElem => {
+          const customStyleElem = document.createElement("style");
+          customStyleElem.setAttribute("id", myID);
+          customStyleElem.appendChild(document.createTextNode(styles));
+          headElem.appendChild(customStyleElem);
+        }
+        );
       }
     } else {
       console.error(GM_info.script.name, " addCSS() error: need ID to be defined");
@@ -767,7 +769,9 @@
     if ( null === document.getElementById(myID)) {
       const container = document.createElement("div");
       container.id = myID;
-      document.getElementsByTagName("body")[0].appendChild(container);
+      _waitForElem("body").then(body => {
+        body.appendChild(container);
+      });
     }
   };
 
@@ -932,6 +936,7 @@
       tx.oncomplete = () => {
         db.close();
         resolve();
+        window.wfes.f.createNotification("import done");
       };
 
       tx.onerror = reject;
