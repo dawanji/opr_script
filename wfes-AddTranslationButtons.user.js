@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name           WFES - Add Translation Buttons
-// @version        2.3.4
+// @version        2.4.0
 // @description    Adds a button to translate the text associated with a wayspot
 // @author         AlterTobi
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @match          https://www.deepl.com/*
 // @match          https://translate.kagi.com/*
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -13,7 +13,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AddTranslationButtons.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AddTranslationButtons.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 
@@ -41,7 +41,7 @@
 (function() {
   "use strict";
 
-  const ORIGIN_WAYFARER = "https://opr.ingress.com";
+  const ORIGIN_WAYFARER = "https://wayfarer.scopely.com";
   const ORIGIN_DEEPL = "https://www.deepl.com";
   const ORIGIN_KAGI = "https://translate.kagi.com";
 

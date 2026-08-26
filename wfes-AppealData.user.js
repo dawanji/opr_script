@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - Appeal Data
-// @version        1.4.0
+// @version        1.5.0
 // @description    save and show appeal your statements
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -10,7 +10,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AppealData.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AppealData.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 

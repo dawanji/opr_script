@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - review Add Orig Location
-// @version        1.2.0
+// @version        1.3.0
 // @description    location edits - add marker for original location
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -10,7 +10,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-reviewAddOrigLocation.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-reviewAddOrigLocation.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 

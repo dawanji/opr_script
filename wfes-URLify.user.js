@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - URLify
-// @version        1.3.5
+// @version        1.4.0
 // @description    detect links in supporting information
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -10,7 +10,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-URLify.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-URLify.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 

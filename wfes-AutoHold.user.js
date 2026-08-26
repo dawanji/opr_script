@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - AutoHold
-// @version        1.3.1
+// @version        1.4.0
 // @description    put nomination on HOLD when additional stament contains the text "#hold"
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -10,7 +10,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AutoHold.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AutoHold.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 

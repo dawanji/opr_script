@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - image Mods
-// @version        1.4.0
+// @version        1.5.0
 // @description    open fullsize images in "named" tabs
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -10,7 +10,7 @@
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-ImageMod.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-ImageMod.meta.js
-// @match          https://opr.ingress.com/*
+// @match          https://wayfarer.scopely.com/*
 // @grant          none
 // ==/UserScript==
 
