@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - Wayfarer Stats
-// @version        1.8.0
+// @version        1.9.0
 // @description    save Wayfarer statistics in local browser storage
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -8,6 +8,7 @@
 // @supportURL     https://github.com/AlterTobi/Wayfarer-Extension-Scripts/issues
 // @icon           https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_32.png
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
+// @require        https://toolbox.gefallenehelden.de/jslib/userscript-logger.js?nonce=218-e1c68f618b
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-WayfarerStats.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-WayfarerStats.meta.js
 // @match          https://wayfarer.scopely.com/*
@@ -39,6 +40,12 @@
   "use strict";
   const selfname = "wfes_wayfarerStats";
   const maincount = 14;
+
+  // Logger initialisieren
+  const logger = new window.UserScriptLogger(GM_info.script.name, true);
+
+  const sessvarMiss = "warnBase";
+  const baseMinVersion = "3.0.0";
 
   // define names
   const lStoreStats = selfname+"_Stats";
@@ -84,7 +91,7 @@ fnV1HwAAAABJRU5ErkJggg==`;
   const head = document.getElementsByTagName("head")[0];
 
   // init
-  function init() {
+  function initStats() {
     // get Values from localStorage
     window.wfes.f.localGet(lStorePogo, []).then((PS)=>{
       PoGoStats = PS;
@@ -563,6 +570,7 @@ fnV1HwAAAABJRU5ErkJggg==`;
               mapId: '${mapId}'
             })
           `;
+
         script.innerHTML += innerScript + "}";
 
         body.appendChild(script);
@@ -668,13 +676,30 @@ fnV1HwAAAABJRU5ErkJggg==`;
   }
 
   /* =========== MAIN ================================ */
+  const init = () => {
+    initStats();
+    // install Event Handlers
+    window.addEventListener("WFESReviewPageLoaded", () => {setTimeout(handleReview, 2000);});
+    window.addEventListener("WFESProfileLoaded", handleProfile);
+    window.addEventListener("WFESHomePageLoaded", handleShowcase);
 
-  // window.setTimeout(init, 200);
-  init(); // die promises sollten es richten :-)
-  // install Event Handlers
-  window.addEventListener("WFESReviewPageLoaded", () => {setTimeout(handleReview, 2000);});
-  window.addEventListener("WFESProfileLoaded", handleProfile);
-  window.addEventListener("WFESHomePageLoaded", handleShowcase);
+  };
 
-  console.log("Script loaded:", GM_info.script.name, "v" + GM_info.script.version);
+  // === no changes needed below this line ======================
+  if("undefined" === typeof(wfes)) {
+    if (undefined === sessionStorage[sessvarMiss]) {
+      sessionStorage[sessvarMiss] = 1;
+      alert("Missing WFES Base. Please install from https://altertobi.github.io/Wayfarer-Extension-Scripts/");
+      logger.error("Missing WFES Base. Please install from https://altertobi.github.io/Wayfarer-Extension-Scripts/");
+    }
+  } else if (window.wfes.f.hasMinVersion(baseMinVersion)) {
+    init();
+  } else {
+    const msg = GM_info.script.name + ": Need at least wfes-Base version " + baseMinVersion+ " Please upgrade.";
+    logger.warn(msg);
+    window.wfes.f.createNotification( msg, "red", {autoclose: 60});
+  }
+
+  /* we are done :-) */
+  logger.info("Script loaded:", GM_info.script.name, "v" + GM_info.script.version);
 })();

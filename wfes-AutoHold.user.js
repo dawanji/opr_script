@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - AutoHold
-// @version        1.4.0
+// @version        1.5.0
 // @description    put nomination on HOLD when additional stament contains the text "#hold"
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -8,6 +8,7 @@
 // @supportURL     https://github.com/AlterTobi/Wayfarer-Extension-Scripts/issues
 // @icon           https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_32.png
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
+// @require        https://toolbox.gefallenehelden.de/jslib/userscript-logger.js?nonce=218-c94a3ec37b
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AutoHold.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-AutoHold.meta.js
 // @match          https://wayfarer.scopely.com/*
@@ -39,6 +40,12 @@
 
 (function() {
   "use strict";
+
+  // Logger initialisieren
+  const logger = new window.UserScriptLogger(GM_info.script.name, true);
+
+  const sessvarMiss = "warnBase";
+  const baseMinVersion = "3.0.0";
 
   const searchRegex = /#hold|,yxcv|,zxcv|placeholder|Platzhalter/;
   const idlist = [];
@@ -127,12 +134,26 @@
     }
   }
 
-  if (window.wfes.f.hasMinVersion("2.3.0")) {
+  const init = () => {
     window.addEventListener("WFESNominationListLoaded", autoHold);
+  };
+
+  // === no changes needed below this line ======================
+  if("undefined" === typeof(wfes)) {
+    if (undefined === sessionStorage[sessvarMiss]) {
+      sessionStorage[sessvarMiss] = 1;
+      alert("Missing WFES Base. Please install from https://altertobi.github.io/Wayfarer-Extension-Scripts/");
+      logger.error("Missing WFES Base. Please install from https://altertobi.github.io/Wayfarer-Extension-Scripts/");
+    }
+  } else if (window.wfes.f.hasMinVersion(baseMinVersion)) {
+    init();
   } else {
-    console.warn(GM_info.script.name, "Need at least wfes-Base version 2.3.0. Please upgrade.");
+    const msg = GM_info.script.name + ": Need at least wfes-Base version " + baseMinVersion+ " Please upgrade.";
+    logger.warn(msg);
+    window.wfes.f.createNotification( msg, "red", {autoclose: 60});
   }
 
   /* we are done :-) */
-  console.log("Script loaded:", GM_info.script.name, "v" + GM_info.script.version);
+  logger.info("Script loaded:", GM_info.script.name, "v" + GM_info.script.version);
+
 })();
