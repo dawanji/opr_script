@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           WFES - image Mods
-// @version        1.5.0
+// @version        1.5.98
 // @description    open fullsize images in "named" tabs
 // @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
@@ -8,7 +8,6 @@
 // @supportURL     https://github.com/AlterTobi/Wayfarer-Extension-Scripts/issues
 // @icon           https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_32.png
 // @icon64         https://altertobi.github.io/Wayfarer-Extension-Scripts/assets/icon_64.png
-// @require        https://toolbox.gefallenehelden.de/jslib/userscript-logger.js?nonce=218-ba1625c5db
 // @downloadURL    https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-ImageMod.user.js
 // @updateURL      https://altertobi.github.io/Wayfarer-Extension-Scripts/wfes-ImageMod.meta.js
 // @match          https://wayfarer.scopely.com/*
@@ -38,7 +37,9 @@
 
 (function() {
   "use strict";
+  const logger = new window.UserScriptLogger(GM_info.script.name, true);
 
+  /*
   let _currentSupImage = 0; // zähler des aktuellen Zusatzbildes
   let _supImageCount = 1; // wieviel Zusatzbilder gibt es?
   let _supImages; // speichern die imageUrls
@@ -280,4 +281,6 @@
   window.addEventListener("WFESReviewPageLoaded", () => {setTimeout(addFullSizeImageLinksReview, 100);});
 
   console.log("Script loaded:", GM_info.script.name, "v" + GM_info.script.version);
+*/
+  logger.error("need fix");
 })();
