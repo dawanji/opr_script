@@ -2,10 +2,10 @@
 // @name           WFES - Add Translation Buttons
 // @version        2.5.2
 // @description    Adds a button to translate the text associated with a wayspot
-// @author         AlterTobi
 // @match          https://wayfarer.scopely.com/*
 // @match          https://www.deepl.com/*
 // @match          https://translate.kagi.com/*
+// @author         AlterTobi
 // @namespace      https://github.com/AlterTobi/WFES/
 // @homepage       https://altertobi.github.io/Wayfarer-Extension-Scripts/
 // @supportURL     https://github.com/AlterTobi/Wayfarer-Extension-Scripts/issues
@@ -64,7 +64,8 @@
     .dark .wfesTranslate {
       color: #ddd;
     }
-    .wfesTranslate select {
+    .wfesTranslate select,
+    .wfesTranslate option {
         margin-bottom: 0.2em; /* Abstand zwischen Dropdown und Button */
         background-color: inherit; /* firefox macht sonst grau */
     }
@@ -93,7 +94,7 @@
     Deepl: {
       name: "Deepl",
       title: "DeepL translate",
-      url: "https://www.deepl.com/translator#auto/"+navigator.language+"/",
+      url: `https://www.deepl.com/translator#auto/${navigator.language}/`,
       target: "wfesTranslateDeepl",
       twindow: null,
       origin: ORIGIN_DEEPL,
@@ -102,7 +103,7 @@
     },
     Kagi: {name: "Kagi",
       title: "Kagi translate",
-      url: "https://translate.kagi.com/?from=auto&to="+navigator.language+"&text=",
+      url: `https://translate.kagi.com/?from=auto&to=${navigator.language}&text=`,
       target: "wfesTranslateKagi",
       twindow: null,
       origin: ORIGIN_KAGI,
@@ -138,7 +139,7 @@
         type: "translate",
         payload: text
       }, origin);
-    } catch (e) {
+    } catch(e) {
       logger.warn("Nachricht konnte nicht gesendet werden:", e.message);
     }
   }
@@ -245,8 +246,8 @@
   function addTranslationButtonsNew() {
     const candidate = window.wfes.g.reviewPageData();
 
-    let allText = candidate.title + "\n\n";
-    allText += candidate.description + "\n\n";
+    let allText = `${candidate.title }\n\n`;
+    allText += `${candidate.description }\n\n`;
 
     if (candidate.statement) {
       allText += candidate.statement;
@@ -261,19 +262,19 @@
 
     // has title
     if (candidate.title) {
-      allText += candidate.title + "\n\n";
+      allText += `${candidate.title }\n\n`;
     }
 
     // is title-edit
     if (edit.what.title) {
       for (let i = 0; i < candidate.titleEdits.length; i++) {
-        allText += candidate.titleEdits[i].value + "\n\n";
+        allText += `${candidate.titleEdits[i].value }\n\n`;
       }
     }
 
     // has description
     if (candidate.description) {
-      allText += candidate.description + "\n\n";
+      allText += `${candidate.description }\n\n`;
     }
 
     // is description-edit
@@ -281,7 +282,7 @@
       for (let i = 0; i < candidate.descriptionEdits.length; i++) {
         const value = candidate.descriptionEdits[i].value;
         if (value) {
-          allText += value + "\n\n";
+          allText += `${value }\n\n`;
         }
       }
     }
@@ -292,7 +293,7 @@
     const candidate = window.wfes.g.reviewPageData();
     let allText = "";
     if(candidate.title) {
-      allText += candidate.title + "\n\n";
+      allText += `${candidate.title }\n\n`;
     }
 
     if(candidate.description) {
@@ -306,7 +307,7 @@
     const candidate = window.wfes.g.showcase().list[0];
     let allText = "";
     if(candidate.title) {
-      allText += candidate.title + "\n\n";
+      allText += `${candidate.title }\n\n`;
     }
 
     if(candidate.description) {
@@ -319,7 +320,7 @@
     const candidate = window.wfes.g.showcase().current;
     let allText = "";
     if(candidate.title) {
-      allText += candidate.title + "\n\n";
+      allText += `${candidate.title }\n\n`;
     }
 
     if(candidate.description) {
@@ -354,7 +355,7 @@
     window.addEventListener("message", (event) => {
       for (const key in engines) {
         const engine = engines[key];
-        const expectedType = engine.name + "-ready";
+        const expectedType = `${engine.name }-ready`;
         if (event.data?.type === expectedType) {
           engine.ready = true;
           if (engine.twindow && !engine.twindow.closed && engine.pendingText) {
@@ -418,7 +419,7 @@
     window.addEventListener("message", (event) => {
       const msg = event.data;
 
-      if ("translate" === msg?.type && "string" === typeof msg.payload) {
+      if (msg?.type === "translate" && typeof msg.payload === "string") {
         console.log("DeepL: Text erhalten:", msg.payload);
         setDeepLText(msg.payload);
       }
@@ -448,7 +449,7 @@
 
     window.addEventListener("message", (event) => {
       const msg = event.data;
-      if ("translate" === msg?.type && "string" === typeof msg.payload) {
+      if (msg?.type === "translate" && typeof msg.payload === "string") {
         console.log("Kagi: Text erhalten:", msg.payload);
         setKagiText(msg.payload);
       }
@@ -461,7 +462,7 @@
     case ORIGIN_WAYFARER:
 
 
-      if("undefined" === typeof(wfes)) {
+      if(typeof(wfes) === "undefined") {
         if (undefined === sessionStorage[sessvarMiss]) {
           sessionStorage[sessvarMiss] = 1;
           alert("Missing WFES Base. Please install from https://altertobi.github.io/Wayfarer-Extension-Scripts/");
@@ -471,7 +472,7 @@
         logger.info("Init Script loading:", GM_info.script.name, " - Wayfarer");
         initWF();
       } else {
-        const msg = GM_info.script.name + ": Need at least wfes-Base version " + baseMinVersion+ " Please upgrade.";
+        const msg = `${GM_info.script.name }: Need at least wfes-Base version ${ baseMinVersion } Please upgrade.`;
         logger.warn(msg);
         window.wfes.f.createNotification( msg, "red", {autoclose: 60});
       }
